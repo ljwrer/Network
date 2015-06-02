@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,9 +34,11 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 
 
 public class MainActivity extends Activity {
@@ -86,7 +91,8 @@ public class MainActivity extends Activity {
                             {
                                 buffer.append(line);
                             }
-                            praseJSONWithJSONObject(buffer.toString());
+//                            praseJSONWithJSONObject(buffer.toString());
+                              praseJSONWithGSON(buffer.toString());
 //                            Message message=new Message();
 //                            message.obj=buffer.toString();
 //                            message.what=SHOW_RESPONSE;
@@ -232,6 +238,17 @@ public class MainActivity extends Activity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+
+        }
+    }
+    public void praseJSONWithGSON(String JSONData){
+        Gson gson=new Gson();
+        List<App> appList=gson.fromJson(JSONData,new TypeToken<List<App>>(){}.getType());
+        for (App app:appList)
+        {
+            Log.d("MainActivityXml","id is "+app.getId());
+            Log.d("MainActivityXml","name is "+app.getName());
+            Log.d("MainActivityXml","version is "+app.getVersion());
         }
     }
 
